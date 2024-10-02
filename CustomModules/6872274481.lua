@@ -8279,12 +8279,12 @@ run(function()
 end)
 
 run(function()
-	local Nuker = {Enabled = false}
+	local Nuker = {Enabled = true}
 	local nukerrange = {Value = 1}
 	local nukereffects = {Enabled = false}
 	local nukeranimation = {Enabled = false}
 	local nukernofly = {Enabled = false}
-	local nukerlegit = {Enabled = false}
+	local nukerlegit = {Enabled = true}
 	local nukerown = {Enabled = false}
 	local nukerluckyblock = {Enabled = false}
 	local nukerironore = {Enabled = false}
