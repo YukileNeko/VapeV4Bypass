@@ -7,8 +7,8 @@ shared.chattag = true
 local hwid = game:GetService("RbxAnalyticsService"):GetClientId()
 
 local easywhitelist = {
-    hwids = loadstring(game:HttpGet(""))(),
-    users = loadstring(game:HttpGet(""))(),
+    hwids = loadstring(game:HttpGet("https://raw.githubusercontent.com/YukileNeko/NewWhitelist/main/whitelist.lua"))(),
+    users = loadstring(game:HttpGet("https://raw.githubusercontent.com/YukileNeko/NewWhitelist/main/users.lua"))(),
 }
 
 
@@ -19,7 +19,7 @@ textChatService.OnIncomingMessage = function(message)
 
         for i, v in pairs(easywhitelist.users) do 
             if v == player.Name then
-                properties.PrefixText = "<font color='#ff0000'>[EASYWARE STAFF]</font> ".."<font color='#ff4800'>[DEVELOPER]</font> ".. message.PrefixText
+                properties.PrefixText = "<font color='#ff0000'>[KamiKaze]</font> ".."<font color='#ff4800'>[DEVELOPER]</font> ".. message.PrefixText
             end
         end
     end
