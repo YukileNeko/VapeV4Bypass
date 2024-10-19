@@ -6110,33 +6110,44 @@ end)
 
 
 run(function()
-	local Ping = {}
-	local PingLabel
-	Ping = GuiLibrary.CreateLegitModule({
-		Name = "Ping",
+	local Velocity = {Enabled = false}
+	local VelocityHorizontal = {Value = 100}
+	local VelocityVertical = {Value = 100}
+	local applyKnockback
+	Velocity = GuiLibrary.ObjectsThatCanBeSaved.CombatWindow.Api.CreateOptionsButton({
+		Name = "Velocity",
 		Function = function(callback)
 			if callback then
-				task.spawn(function()
-					repeat
-						PingLabel.Text = math.floor(tonumber(game:GetService("Stats"):FindFirstChild("PerformanceStats").Ping:GetValue())).." ms"
-						task.wait(1)
-					until false
-				end)
+				applyKnockback = bedwars.KnockbackUtil.applyKnockback
+				bedwars.KnockbackUtil.applyKnockback = function(root, mass, dir, knockback, ...)
+					knockback = knockback or {}
+					if VelocityHorizontal.Value == 0 and VelocityVertical.Value == 0 then return end
+					knockback.horizontal = (knockback.horizontal or 1) * (VelocityHorizontal.Value / 100)
+					knockback.vertical = (knockback.vertical or 1) * (VelocityVertical.Value / 100)
+					return applyKnockback(root, mass, dir, knockback, ...)
+				end
+			else
+				bedwars.KnockbackUtil.applyKnockback = applyKnockback
 			end
-		end
+		end,
+		HoverText = "Reduces knockback taken"
 	})
-	PingLabel = Instance.new("TextLabel")
-	PingLabel.Size = UDim2.new(0, 100, 0, 41)
-	PingLabel.BackgroundTransparency = 0.5
-	PingLabel.TextSize = 15
-	PingLabel.Font = Enum.Font.Gotham
-	PingLabel.Text = "0 ms"
-	PingLabel.TextColor3 = Color3.new(1, 1, 1)
-	PingLabel.BackgroundColor3 = Color3.new()
-	PingLabel.Parent = Ping.GetCustomChildren()
-	local PingCorner = Instance.new("UICorner")
-	PingCorner.CornerRadius = UDim.new(0, 4)
-	PingCorner.Parent = PingLabel
+	VelocityHorizontal = Velocity.CreateSlider({
+		Name = "Horizontal",
+		Min = 0,
+		Max = 100,
+		Percent = true,
+		Function = function(val) end,
+		Default = 0
+	})
+	VelocityVertical = Velocity.CreateSlider({
+		Name = "Vertical",
+		Min = 0,
+		Max = 100,
+		Percent = true,
+		Function = function(val) end,
+		Default = 0
+	})
 end)
 
 run(function()
